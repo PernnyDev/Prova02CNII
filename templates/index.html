@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transferência Google Drive → Azure Blob Storage</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1>☁️ Transferência de Arquivos</h1>
+                <p class="subtitle">Google Drive → Azure Blob Storage</p>
+            </div>
+            <div class="header-status">
+                <span id="status-indicator" class="status-dot"></span>
+                <span id="status-text">Conectando...</span>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Google Drive Panel -->
+            <section class="panel google-drive-panel">
+                <div class="panel-header">
+                    <h2>📂 Google Drive</h2>
+                    <button id="refresh-gdrive" class="btn btn-small btn-primary" title="Atualizar lista">
+                        🔄 Atualizar
+                    </button>
+                </div>
+
+                <div class="panel-content">
+                    <div id="gdrive-loader" class="loader">
+                        <div class="spinner"></div>
+                        Carregando arquivos...
+                    </div>
+                    
+                    <div id="gdrive-list" class="file-list" style="display: none;">
+                        <!-- Arquivos serão inseridos aqui -->
+                    </div>
+
+                    <div id="gdrive-empty" class="empty-state" style="display: none;">
+                        <p>📭 Nenhum arquivo encontrado no Google Drive</p>
+                    </div>
+
+                    <div id="gdrive-error" class="error-state" style="display: none;">
+                        <p>❌ Erro ao carregar arquivos do Google Drive</p>
+                    </div>
+                </div>
+
+                <div class="panel-footer">
+                    <button id="transfer-selected" class="btn btn-large btn-success" disabled>
+                        ⬆️ Transferir Selecionados
+                    </button>
+                    <button id="select-all-gdrive" class="btn btn-small btn-secondary">
+                        ☑️ Selecionar Tudo
+                    </button>
+                    <button id="deselect-all-gdrive" class="btn btn-small btn-secondary">
+                        ☐ Desselecionar Tudo
+                    </button>
+                </div>
+            </section>
+
+            <!-- Azure Blob Panel -->
+            <section class="panel azure-panel">
+                <div class="panel-header">
+                    <h2>☁️ Azure Blob Storage</h2>
+                    <button id="refresh-azure" class="btn btn-small btn-primary" title="Atualizar lista">
+                        🔄 Atualizar
+                    </button>
+                </div>
+
+                <div class="panel-content">
+                    <div id="azure-loader" class="loader">
+                        <div class="spinner"></div>
+                        Carregando blobs...
+                    </div>
+                    
+                    <div id="azure-list" class="file-list" style="display: none;">
+                        <!-- Blobs serão inseridos aqui -->
+                    </div>
+
+                    <div id="azure-empty" class="empty-state" style="display: none;">
+                        <p>📭 Nenhum arquivo no Azure Blob Storage</p>
+                    </div>
+
+                    <div id="azure-error" class="error-state" style="display: none;">
+                        <p>❌ Erro ao carregar blobs do Azure</p>
+                    </div>
+                </div>
+
+                <div class="panel-footer">
+                    <button id="delete-selected" class="btn btn-large btn-danger" disabled>
+                        🗑️ Deletar Selecionados
+                    </button>
+                    <button id="select-all-azure" class="btn btn-small btn-secondary">
+                        ☑️ Selecionar Tudo
+                    </button>
+                    <button id="deselect-all-azure" class="btn btn-small btn-secondary">
+                        ☐ Desselecionar Tudo
+                    </button>
+                </div>
+            </section>
+        </main>
+
+        <!-- Transfer Status Modal -->
+        <div id="transfer-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>📊 Status da Transferência</h2>
+                    <button class="modal-close" onclick="closeTransferModal()">✕</button>
+                </div>
+                <div class="modal-body">
+                    <div id="transfer-progress">
+                        <div class="progress-bar">
+                            <div id="progress-fill" class="progress-fill"></div>
+                        </div>
+                        <p id="progress-text">Iniciando transferência...</p>
+                    </div>
+                    <div id="transfer-results" style="display: none;">
+                        <div class="results-summary">
+                            <p><strong>Total:</strong> <span id="result-total">0</span></p>
+                            <p class="success"><strong>✅ Sucesso:</strong> <span id="result-success">0</span></p>
+                            <p class="error"><strong>❌ Falhas:</strong> <span id="result-failed">0</span></p>
+                        </div>
+                        <div id="results-list" class="results-list"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="close-modal-btn" class="btn btn-primary" style="display: none;" onclick="closeTransferModal()">
+                        Fechar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast Notifications -->
+        <div id="toast-container" class="toast-container"></div>
+    </div>
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
