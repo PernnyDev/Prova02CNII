@@ -1,7 +1,8 @@
-google-auth-oauthlib==1.2.0
-google-auth-httplib2==0.2.0
-google-api-python-client==2.104.0
-azure-storage-blob==12.20.0
-python-dotenv==1.0.0
 Flask==3.0.0
 flask-cors==4.0.0
+google-auth-oauthlib==1.2.0
+google-auth-httplib2==0.2.0
+google-api-python-client==2.108.0
+azure-storage-blob==12.19.0
+python-dotenv==1.0.0
+requests==2.31.0
